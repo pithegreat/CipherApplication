@@ -1,9 +1,9 @@
 /*
  * Tejas Guha
  * 1/7/2018
- * Cipher Application with Caesar, Substitution, and Vigenere Ciphers
+ * Cipher Application with Caesar, Substitution, and Vignere Ciphers and GUI
  */
-package Cipher;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class CipherApplication implements ActionListener{
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		JRadioButton caesar = new JRadioButton("Caesar");
 		JRadioButton sub = new JRadioButton("Substitution");
-		JRadioButton vig = new JRadioButton("Vignere");
+		JRadioButton vig = new JRadioButton("Vigenere");
 		caesar.setActionCommand("c");
 		sub.setActionCommand("s");
 		vig.setActionCommand("v");
@@ -89,7 +89,7 @@ public class CipherApplication implements ActionListener{
 		Codeable c; //makes it global in the method
 		c = new Caesar(13,"Tejas Guha!");
 		switch (bG.getSelection().getActionCommand()){ //sees which cipher has been picked
-			case "c":
+			case "c": //if caesar
 				int k;
 				try{
 					k = Integer.parseInt(key.getText()); //makes sure key is numeric
@@ -101,10 +101,10 @@ public class CipherApplication implements ActionListener{
 				c = new Caesar(k, txt.getText());
 				break;
 			
-			case "s":
+			case "s": //if substitution
 				String alpha = key.getText();
 				if (alpha.length() != 26){
-					JOptionPane.showMessageDialog(null, "Make sure the key is 26 letters long!"); //makes sure key is alphabetic
+					JOptionPane.showMessageDialog(null, "Make sure the key is a new alphabet (26 letters long, no spaces)!"); //makes sure key is alphabetic
 					return;
 				}
 				
@@ -113,20 +113,24 @@ public class CipherApplication implements ActionListener{
 						JOptionPane.showMessageDialog(null, "Make sure the key is all letters!"); //makes sure key is a word
 						return;
 					}
+					
+					if(!(i == alpha.lastIndexOf(alpha.charAt(i)))){
+						JOptionPane.showMessageDialog(null, "Do not repeat letters in the new alphabet!"); //makes sures letters don't repeat in key
+						return;
+					}
 				}
 				
 				c = new Substitution(alpha, txt.getText());
 				break;
 			
-			case "v":
+			case "v": //if vigenere
 				String word = key.getText();
 				for (int i = 0; i < word.length(); i++){
 					if (!Character.isAlphabetic(word.charAt(i))){
 						JOptionPane.showMessageDialog(null, "Make sure the key is all letters!"); //makes sure key is all letters
 						return;
 					}
-				}
-				
+				}			
 				c = new Vignere(word, txt.getText());
 		}
 		
@@ -135,8 +139,5 @@ public class CipherApplication implements ActionListener{
 		}else{
 			output.setText(c.decode());
 		}
-		
-		
 	}
-
 }

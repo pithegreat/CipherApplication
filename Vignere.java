@@ -1,12 +1,20 @@
-package Cipher;
+/*
+ * Tejas Guha
+ * Vigenere Cipher
+ */
 
 public class Vignere implements Codeable{
 	private String key;
 	private String text;
 	
-	public Vignere(String k, String t){
+	public Vignere(String k, String t){ //constructor for cipher/plain text and key
 		key = k.toLowerCase();
 		text = t;
+	}
+	
+	public Vignere(){ //default
+		key = "WORD";
+		text = "Vigenere";
 	}
 
 	public String encode() {
@@ -49,4 +57,31 @@ public class Vignere implements Codeable{
 			return (char) ((pos+k) % 91);
 		}
 	}
+
+	public String toString() {
+		return "Vignere [key=" + key + ", text=" + text + "]";
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vignere other = (Vignere) obj;
+		if (key == null) {
+			if (other.key != null)
+				return false;
+		} else if (!key.equals(other.key))
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		return true;
+	}
+	
+	
 }
